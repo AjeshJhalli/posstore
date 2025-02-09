@@ -1,0 +1,38 @@
+{% load partials %}
+
+{% partialdef test-partial %}
+TEST-PARTIAL-CONTENT
+{% endpartialdef %}
+
+<nav class="navbar">
+  <a class="navbar-brand" href="/">POS Store</a>
+  <form>
+    <input
+      class="searchbar"
+      type="search"
+      placeholder="Search for products"
+      name="product_search"
+    />
+    <button class="material-symbols-outlined">search</button>
+  </form>
+  <ul>
+    <li>
+      <a class="navbar-link" href="/">
+        <div class="material-symbols-outlined"> newsstand </div>
+        <div>Products</div>
+      </a>
+    </li>
+    <li>
+      <a class="navbar-link" href="/">
+        <span class="material-symbols-outlined"> shopping_bag </span>
+        Orders
+      </a>
+    </li>
+    <li>
+      <a class="navbar-link" href="/">
+        <span class="material-symbols-outlined">shopping_cart</span>
+        Cart
+      </a>
+    </li>
+  </ul>
+</nav>

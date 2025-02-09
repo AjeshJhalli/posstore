@@ -1,0 +1,50 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block scripts %}
+<script src="{% static 'store/product.js' %}" ></script>
+{% endblock %}
+
+{% block content %}
+<div style="display: flex; gap: 40px">
+  <img class="product-page-img" src="{{ product.image_url }}" />
+  <div class="product-info">
+    <div>
+      <h2>{{ product.name }}</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+        </tr>
+      </thead>
+      <tbody id="price-breaks-tbody">
+        {% for price_break in price_breaks %}
+        <tr>
+          <td>{{ price_break.minimum_units }}</td>
+          <td>£{{ price_break.price|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div>
+      <div class="product-quantity">
+        <label
+          >Quantity:
+          <input class="product-quantity-input" type="number" value="1"
+        onchange="setPriceBreakdown(event)"/></label>
+      </div>
+      <div id="price-breakdown" class="product-price">
+        Price Breakdown: £0.75 x 500 + £0.50 x 200 = £375.00 + £100.00 =
+        <b>£475.00</b>
+      </div>
+      <div class="product-price">Total Price: <b id="total-price">£475.00</b></div>
+    </div>
+
+    <button class="btn" onclick="alert('Added')">Add to Cart</button>
+  </div>
+  <div></div>
+</div>
+
+{% endblock %}

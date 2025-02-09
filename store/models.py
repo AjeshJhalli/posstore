@@ -21,12 +21,19 @@ class Address(models.Model):
 class Product(models.Model):
   name = models.TextField()
   lead_time_days = models.IntegerField()
+  image_url = models.TextField(null=True)
+  
+  def __str__(self):
+    return self.name
   
   
 class PriceBreak(models.Model):
   minimum_units = models.IntegerField(default=0)
   price = models.FloatField()
   product = models.ForeignKey(Product, on_delete=models.CASCADE)
+  
+  def __str__(self):
+    return self.product.name + ' - ' + str(self.minimum_units) + ' units'
 
 
 class Order(models.Model):
