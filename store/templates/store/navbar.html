@@ -1,23 +1,17 @@
-{% load partials %}
-
-{% partialdef test-partial %}
-TEST-PARTIAL-CONTENT
-{% endpartialdef %}
-
 <nav class="navbar">
   <a class="navbar-brand" href="/">POS Store</a>
-  <form>
+  <form class="search" action="/products">
     <input
       class="searchbar"
       type="search"
       placeholder="Search for products"
       name="product_search"
     />
-    <button class="material-symbols-outlined">search</button>
+    <button class="material-symbols-outlined btn-search">search</button>
   </form>
   <ul>
     <li>
-      <a class="navbar-link" href="/">
+      <a class="navbar-link" href="{% url 'products' %}">
         <div class="material-symbols-outlined"> newsstand </div>
         <div>Products</div>
       </a>

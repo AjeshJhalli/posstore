@@ -18,38 +18,7 @@
     {% endblock %}
   </head>
   <body>
-    <nav class="navbar">
-      <a class="navbar-brand" href="/">POS Store</a>
-      <form>
-        <input
-          class="searchbar"
-          type="search"
-          placeholder="Search for products"
-          name="product_search"
-        />
-        <button class="material-symbols-outlined">search</button>
-      </form>
-      <ul>
-        <li>
-          <a class="navbar-link" href="/products">
-            <div class="material-symbols-outlined"> newsstand </div>
-            <div>Products</div>
-          </a>
-        </li>
-        <li>
-          <a class="navbar-link" href="/orders">
-            <span class="material-symbols-outlined"> shopping_bag </span>
-            Orders
-          </a>
-        </li>
-        <li>
-          <a class="navbar-link" href="/">
-            <span class="material-symbols-outlined">shopping_cart</span>
-            Cart
-          </a>
-        </li>
-      </ul>
-    </nav>
+    {% include 'store/navbar.html' %}
     <main>
       {% block content %}{% endblock %}
     </main>

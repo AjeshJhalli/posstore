@@ -26,6 +26,35 @@ class Product(models.Model):
   def __str__(self):
     return self.name
   
+  def get_price_breakdown(self, quantity):
+    
+    price_breaks = PriceBreak.objects.filter(product_id=self.pk)
+    
+    breakdown_string = ''
+    total = 0
+    
+    prev_qty = 0
+    
+    for price_break in price_breaks:
+      
+      current_qty = price_break.minimum_units
+      formatted_price = '£{0:.2f}'.format(price_break.price)
+      
+      if current_qty > quantity:
+        total += quantity * price_break.price
+        breakdown_string += str(quantity) + ' x ' + formatted_price
+      else:
+        diff = current_qty - prev_qty
+        total += diff * price_break.price
+        breakdown_string += str(diff) + ' x ' + formatted_price
+        break
+      
+      prev_qty = current_qty
+      
+    breakdown_string += ' = £' + '{0:.2f}'.format(total)
+    
+    return breakdown_string, total
+  
   
 class PriceBreak(models.Model):
   minimum_units = models.IntegerField(default=0)

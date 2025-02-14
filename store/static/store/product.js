@@ -8,7 +8,7 @@ function setPriceBreakdown(event) {
 
   let total = 0;
 
-  let breakdowns = [];
+  const breakdowns = [];
 
   const priceMap = priceBreaks.map(([qty, price], i) => {
 

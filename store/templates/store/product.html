@@ -32,14 +32,13 @@
       <div class="product-quantity">
         <label
           >Quantity:
-          <input class="product-quantity-input" type="number" value="1"
+          <input class="product-quantity-input" type="number" value="{{ minimum_quantity }}"
         onchange="setPriceBreakdown(event)"/></label>
       </div>
       <div id="price-breakdown" class="product-price">
-        Price Breakdown: £0.75 x 500 + £0.50 x 200 = £375.00 + £100.00 =
-        <b>£475.00</b>
+        Price Breakdown: {{ price_breakdown }}
       </div>
-      <div class="product-price">Total Price: <b id="total-price">£475.00</b></div>
+      <div class="product-price">Total Price: <b id="total-price">£{{ total|floatformat:2}}</b></div>
     </div>
 
     <button class="btn" onclick="alert('Added')">Add to Cart</button>

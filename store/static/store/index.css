@@ -22,22 +22,6 @@ input[type="search"] {
   padding-right: 40px;
 }
 
-.navbar > form {
-  height: 40px;
-  /* display: block; */
-  padding: 0;
-}
-
-.searchbar {
-  height: 100%;
-  width: 400px;
-  font-size: 16px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 6px;
-  border: 1px solid lightgray;
-}
-
 .navbar > ul {
   margin: 0;
   padding: 0;
@@ -206,4 +190,33 @@ main {
 .product-quantity-input {
   width: 80px;
   text-align: center;
+}
+
+.search {
+  display: flex;
+  height: 40px;
+  padding: 0;
+}
+
+.btn-search {
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border: 1px solid lightgray;
+  background-color: rgb(238, 238, 238);
+  color: gray;
+}
+
+.searchbar {
+  height: 100%;
+  width: 400px;
+  font-size: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border: 1px solid lightgray;
+  border-right: none;
 }
