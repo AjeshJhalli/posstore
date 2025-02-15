@@ -14,12 +14,9 @@ input[type="search"] {
 
 .navbar {
   height: 60px;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding-left: 40px;
-  padding-right: 40px;
 }
 
 .navbar > ul {
@@ -55,6 +52,7 @@ input[type="search"] {
   align-content: center;
   font-weight: bold;
   font-size: 20px;
+  padding-left: 40px;
 }
 
 .card {
@@ -219,4 +217,11 @@ main {
   border-bottom-left-radius: 6px;
   border: 1px solid lightgray;
   border-right: none;
+}
+
+.module-nav {
+  display: flex;
+  /* border: 1px solid; */
+  align-items: center;
+  justify-content: center;
 }
