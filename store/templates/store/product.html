@@ -30,15 +30,22 @@
     </table>
     <div>
       <div class="product-quantity">
-        <label
-          >Quantity:
-          <input class="product-quantity-input" type="number" value="{{ minimum_quantity }}"
-        onchange="setPriceBreakdown(event)"/></label>
+        <label>
+          Quantity:
+          <input
+            class="product-quantity-input"
+            type="number"
+            name="quantity"
+            value="{{ minimum_quantity }}"
+            hx-trigger="input delay:500ms, keyup delay:500ms"
+            hx-post="/products/{{ product.pk }}/price-breakdown"
+            hx-target="#price-breakdown-component"
+            hx-swap="outerHTML"
+            min="{{ minimum_quantity }}"
+          />
+        </label>
       </div>
-      <div id="price-breakdown" class="product-price">
-        Price Breakdown: {{ price_breakdown }}
-      </div>
-      <div class="product-price">Total Price: <b id="total-price">£{{ total|floatformat:2}}</b></div>
+      {% include 'store/price_breakdown.html' %}
     </div>
 
     <button class="btn" onclick="alert('Added')">Add to Cart</button>

@@ -30,28 +30,43 @@ class Product(models.Model):
     
     price_breaks = PriceBreak.objects.filter(product_id=self.pk)
     
+    if len(price_breaks) == 0:
+      return 'No price breaks configured', 0
+    
+    if quantity < min([price_break.minimum_units for price_break in price_breaks]):
+      return 'Invalid quantity', 0
+    
     breakdown_string = ''
     total = 0
     
     prev_qty = 0
     
-    for price_break in price_breaks:
+    for i, price_break in enumerate(price_breaks):
       
       current_qty = price_break.minimum_units
       formatted_price = '£{0:.2f}'.format(price_break.price)
       
-      if current_qty > quantity:
-        total += quantity * price_break.price
-        breakdown_string += str(quantity) + ' x ' + formatted_price
-      else:
-        diff = current_qty - prev_qty
+      if current_qty >= quantity:
+        diff = quantity - prev_qty
         total += diff * price_break.price
-        breakdown_string += str(diff) + ' x ' + formatted_price
+        breakdown_string += str(diff) + ' x ' + formatted_price + ' + '
         break
+      else:
+        
+        if i == len(price_breaks) - 1:
+          diff = quantity - prev_qty
+        else:
+          diff = current_qty - prev_qty
+        
+        total += diff * price_break.price
+        breakdown_string += str(diff) + ' x ' + formatted_price + ' + '
       
       prev_qty = current_qty
       
-    breakdown_string += ' = £' + '{0:.2f}'.format(total)
+    if len(breakdown_string) > 2:
+      breakdown_string = breakdown_string[:-2]
+      
+    breakdown_string += '= £' + '{0:.2f}'.format(total)
     
     return breakdown_string, total
   
