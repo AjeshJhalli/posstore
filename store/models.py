@@ -41,6 +41,8 @@ class Product(models.Model):
     
     prev_qty = 0
     
+    highest_past = True
+    
     for i, price_break in enumerate(price_breaks):
       
       current_qty = price_break.minimum_units
@@ -50,19 +52,20 @@ class Product(models.Model):
         diff = quantity - prev_qty
         total += diff * price_break.price
         breakdown_string += str(diff) + ' x ' + formatted_price + ' + '
+        highest_past = False
         break
       else:
-        
-        if i == len(price_breaks) - 1:
-          diff = quantity - prev_qty
-        else:
-          diff = current_qty - prev_qty
-        
+        diff = current_qty - prev_qty  
         total += diff * price_break.price
         breakdown_string += str(diff) + ' x ' + formatted_price + ' + '
       
       prev_qty = current_qty
       
+    if highest_past:
+      diff = quantity - prev_qty  
+      total += diff * price_break.price
+      breakdown_string += str(diff) + ' x ' + formatted_price + ' + '
+  
     if len(breakdown_string) > 2:
       breakdown_string = breakdown_string[:-2]
       
@@ -90,3 +93,7 @@ class OrderItem(models.Model):
   order = models.ForeignKey(Order, on_delete=models.CASCADE)
   product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
   quantity = models.IntegerField()
+
+
+class CartItem(models.Model):
+  product = models.ForeignKey(Product, on_delete=models.CASCADE)

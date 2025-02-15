@@ -21,7 +21,10 @@ def product(request, product_id):
     product = Product.objects.get(id=product_id)
     price_breaks = PriceBreak.objects.filter(product_id=product.pk)
     
-    minimum_quantity = min([price_break.minimum_units for price_break in price_breaks])
+    try:
+        minimum_quantity = min([price_break.minimum_units for price_break in price_breaks])
+    except ValueError:
+        minimum_quantity = 0
     
     if minimum_quantity < 0:
         return HttpResponseServerError()
