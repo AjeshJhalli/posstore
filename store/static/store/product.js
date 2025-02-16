@@ -62,3 +62,7 @@ function getPriceBreaks() {
 
   return priceBreaks;
 }
+
+document.addEventListener('added_to_cart', function (_) {
+  alert('Item added to cart');
+});

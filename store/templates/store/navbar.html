@@ -6,6 +6,7 @@
       type="search"
       placeholder="Search for products"
       name="product_search"
+      tabindex="0"
     />
     <button class="material-symbols-outlined btn-search">search</button>
   </form>
@@ -22,11 +23,6 @@
         Orders
       </a>
     </li>
-    <li>
-      <a class="navbar-link" href="/">
-        <span class="material-symbols-outlined">shopping_cart</span>
-        Cart
-      </a>
-    </li>
+    {% include 'store/navbar_cart_button.html' %}
   </ul>
 </nav>

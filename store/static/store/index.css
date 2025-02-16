@@ -90,34 +90,14 @@ h1 {
   font-size: 32px;
 }
 
-table {
-  border: 1px solid;
-}
-
-th {
-  background-color: rgb(235, 235, 235);
-  color: gray;
-  font-weight: normal;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-th,
-td {
-  border: 1px solid lightgray;
-  padding-left: 20px;
-  padding-right: 20px;
-  width: 120px;
-}
-
-td {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
 .td-left {
   text-align: left;
 }
+
+.td-center {
+  text-align: center;
+}
+
 
 .td-right {
   text-align: right;
@@ -158,7 +138,44 @@ main {
   padding-bottom: 5px;
 }
 
-.btn:hover {
+.btn-edit {
+  background-color: rgb(70, 70, 255);
+  color: white;
+  border: 1px solid;
+  font-size: 12px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+
+.btn-delete {
+  background-color: red;
+  color: white;
+  border: 1px solid;
+  font-size: 12px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.btn-delete-md {
+  background-color: red;
+  color: white;
+  border: 1px solid;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.btn:hover, .btn-delete:hover, .btn-edit:hover, .btn-delete-md:hover {
   cursor: pointer;
 }
 
@@ -225,4 +242,48 @@ main {
   /* border: 1px solid; */
   align-items: center;
   justify-content: center;
+}
+
+.cart-table {
+  /* gap: 10px 0; */
+  /* margin-left: 0; */
+  /* padding: 0; */
+  /* margin-top: 40px; */
+  /* border-collapse: collapse; */
+}
+
+.cart-tr {
+  border-bottom: 1px solid lightgray;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-img-container {
+  display: flex;
+  height: 100px;
+  width: 200px;
+  justify-content: center;
+}
+
+.cart-img {
+  object-fit: contain;
+}
+
+.cart-th {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cart-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-td {
+  padding-left: 40px;
+  padding-right: 40px;
 }

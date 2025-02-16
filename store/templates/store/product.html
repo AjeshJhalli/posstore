@@ -1,17 +1,44 @@
-{% extends "store/base.html" %}
-{% load static %}
-
-{% block scripts %}
-<script src="{% static 'store/product.js' %}" ></script>
-{% endblock %}
-
-{% block content %}
+{% extends "store/base.html" %} {% load static %} {% block scripts %}
+<script src="{% static 'store/product.js' %}"></script>
+{% endblock %} {% block content %}
 <div style="display: flex; gap: 40px">
   <img class="product-page-img" src="{{ product.image_url }}" />
   <div class="product-info">
     <div>
       <h2>{{ product.name }}</h2>
     </div>
+    <form
+      hx-post="/products/{{ product.pk }}/add-to-cart"
+      hx-target="#navbar-cart-button"
+      hx-swap="outerHTML"
+    >
+      <div class="product-quantity">
+        <label>
+          Quantity:
+          <input
+            class="product-quantity-input"
+            type="number"
+            name="quantity"
+            value="{{ quantity }}"
+            hx-trigger="input delay:500ms, keyup delay:500ms"
+            hx-post="/products/{{ product.pk }}/price-breakdown"
+            hx-target="#price-breakdown-component"
+            hx-swap="outerHTML"
+            min="{{ minimum_quantity }}"
+            tabindex="1"
+          />
+        </label>
+      </div>
+      {% include 'store/price_breakdown.html' %}
+      {% if in_cart %}
+      <button class="btn-delete-md" tabindex="2">Remove From Cart</button>
+      <button class="btn" tabindex="2">Save Changes</button>
+      {% else %}
+      <button class="btn" tabindex="2">Add to Cart</button>
+      {% endif %}
+    </form>
+  </div>
+  <div>
     <table>
       <thead>
         <tr>
@@ -28,29 +55,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <div>
-      <div class="product-quantity">
-        <label>
-          Quantity:
-          <input
-            class="product-quantity-input"
-            type="number"
-            name="quantity"
-            value="{{ minimum_quantity }}"
-            hx-trigger="input delay:500ms, keyup delay:500ms"
-            hx-post="/products/{{ product.pk }}/price-breakdown"
-            hx-target="#price-breakdown-component"
-            hx-swap="outerHTML"
-            min="{{ minimum_quantity }}"
-          />
-        </label>
-      </div>
-      {% include 'store/price_breakdown.html' %}
-    </div>
-
-    <button class="btn" onclick="alert('Added')">Add to Cart</button>
   </div>
-  <div></div>
 </div>
 
 {% endblock %}

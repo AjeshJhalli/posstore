@@ -1,0 +1,51 @@
+{% extends "store/base.html" %} {% block content %}
+<h2>Your Cart ({{ cart.count }})</h2>
+<table class="cart-table">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart %}
+    <tr class="cart-tr">
+      <td class="cart-th">
+        <a
+          class="cart-img-container"
+          href="{% url 'product' item.product_id %}"
+        >
+          <img src="{{ item.product.image_url }}" />
+        </a>
+      </td>
+      <td class="cart-th">
+        <a
+          class="cart-img-container cart-link"
+          href="{% url 'product' item.product_id %}"
+        >
+          {{ item.product.name }}
+        </a>
+      </td>
+      <td class="cart-th td-right">x {{ item.quantity }}</td>
+      <td class="cart-th td-right">
+        £{{ item.price|floatformat:2 }}
+      </td>
+      <td class="cart-th td-right ">
+        <a class="btn-edit" href="{% url 'product' item.product_id %}">Edit</a>
+        <button
+          class="btn-delete"
+          hx-delete="/cart"
+          hx-vals='{ "item_id": {{ item.pk }} }'
+          hx-confirm="Are you sure you want to remove this item?"
+        >
+          Remove
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

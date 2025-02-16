@@ -26,6 +26,46 @@ class Product(models.Model):
   def __str__(self):
     return self.name
   
+  @property
+  def minimum_quantity(self):
+    return min([price_break.minimum_units for price_break in PriceBreak.objects.filter(product_id=self.pk)])
+  
+  def get_price(self, quantity):
+    
+    price_breaks = PriceBreak.objects.filter(product_id=self.pk)
+    
+    if len(price_breaks) == 0:
+      return 0
+    
+    if quantity < min([price_break.minimum_units for price_break in price_breaks]):
+      return 0
+    
+    total = 0
+    prev_qty = 0
+    highest_past = True
+    
+    for price_break in price_breaks:
+      
+      current_qty = price_break.minimum_units
+      
+      if current_qty >= quantity:
+        diff = quantity - prev_qty
+        total += diff * price_break.price
+        highest_past = False
+        break
+      else:
+        diff = current_qty - prev_qty  
+        total += diff * price_break.price
+      
+      prev_qty = current_qty
+      
+    if highest_past:
+      diff = quantity - prev_qty  
+      total += diff * price_break.price
+    
+    return total
+  
+  
   def get_price_breakdown(self, quantity):
     
     price_breaks = PriceBreak.objects.filter(product_id=self.pk)
@@ -43,7 +83,7 @@ class Product(models.Model):
     
     highest_past = True
     
-    for i, price_break in enumerate(price_breaks):
+    for price_break in price_breaks:
       
       current_qty = price_break.minimum_units
       formatted_price = '£{0:.2f}'.format(price_break.price)
@@ -97,3 +137,11 @@ class OrderItem(models.Model):
 
 class CartItem(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE)
+  quantity = models.IntegerField()
+  
+  def __str__(self):
+    return self.product.name + ' x ' + str(self.quantity)
+  
+  @property
+  def price(self):
+    return self.product.get_price(self.quantity)
