@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseServerError, HttpResponseNotFound, HttpResponseBadRequest, HttpResponse, QueryDict
-from .models import Product, PriceBreak, CartItem
-import json
+from .models import Product, PriceBreak, CartItem, Order, OrderItem
+from datetime import datetime
 
 
 def index(request):
@@ -10,8 +10,36 @@ def index(request):
     
 
 def orders(request):
+    
+    if request.method == "POST":
+        
+        cart = CartItem.objects.all()
+        
+        order = Order()
+        order.order_date = datetime.today()        
+        order.total_cost = 0
+        order.save()
+        
+        for cart_item in cart:
+            
+            order_item = OrderItem()
+            order_item.order = order
+            order_item.product = cart_item.product
+            order_item.quantity = cart_item.quantity
+            order_item.cost = cart_item.price
+            order_item.save()
+            
+            order.total_cost += cart_item.price
+            
+        order.save()
+        
+        CartItem.objects.all().delete()
+    
     cart_item_count = CartItem.objects.count()
-    return render(request, 'store/orders.html', { 'cart_item_count': cart_item_count })
+    
+    orders = Order.objects.all()
+    
+    return render(request, 'store/orders.html', { 'cart_item_count': cart_item_count, 'orders': orders })
     
     
 def products(request):
@@ -37,18 +65,20 @@ def product(request, product_id):
     if minimum_quantity < 0:
         return HttpResponseServerError()
     
-    price_breakdown, total = product.get_price_breakdown(minimum_quantity)
-    
     cart_item = CartItem.objects.filter(product_id=product.pk).first()    
     
     if cart_item is not None:
         quantity = cart_item.quantity
+        item_id = cart_item.pk
     else:
         quantity = minimum_quantity
+        item_id = ''
+        
+    price_breakdown, total = product.get_price_breakdown(quantity)
     
     cart_item_count = CartItem.objects.count()
     
-    return render(request, 'store/product.html', { "product": product, 'price_breaks': price_breaks, 'price_breakdown': price_breakdown, 'total': total, 'minimum_quantity': minimum_quantity, 'cart_item_count': cart_item_count, 'in_cart': cart_item is not None, 'quantity': quantity })
+    return render(request, 'store/product.html', { "product": product, 'price_breaks': price_breaks, 'price_breakdown': price_breakdown, 'total': total, 'minimum_quantity': minimum_quantity, 'cart_item_count': cart_item_count, 'in_cart': cart_item is not None, 'quantity': quantity, 'item_id': item_id })
 
 
 def price_breakdown(request, product_id):
@@ -101,7 +131,7 @@ def add_to_cart(request, product_id):
     cart_item_count = CartItem.objects.count()
     
     response = render(request, 'store/navbar_cart_button.html', { 'cart_item_count': cart_item_count })
-    response['HX-Trigger'] = 'added_to_cart';
+    response['HX-Redirect'] = '/cart';
     
     return response
 
@@ -116,11 +146,13 @@ def cart(request):
         cart_item.delete()
         
         response = HttpResponse('')
-        response['HX-Refresh'] = 'true'
+        response['HX-Redirect'] = '/cart'
         
         return response
     
     cart = CartItem.objects.all()
     
-    return render(request, 'store/cart.html', { 'cart': cart, 'cart_item_count': len(cart) })
+    cart_total_price = sum([item.price for item in cart])
+    
+    return render(request, 'store/cart.html', { 'cart': cart, 'cart_item_count': len(cart), 'total': cart_total_price })
     

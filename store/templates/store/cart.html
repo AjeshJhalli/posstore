@@ -30,10 +30,8 @@
         </a>
       </td>
       <td class="cart-th td-right">x {{ item.quantity }}</td>
+      <td class="cart-th td-right">£{{ item.price|floatformat:2 }}</td>
       <td class="cart-th td-right">
-        £{{ item.price|floatformat:2 }}
-      </td>
-      <td class="cart-th td-right ">
         <a class="btn-edit" href="{% url 'product' item.product_id %}">Edit</a>
         <button
           class="btn-delete"
@@ -47,5 +45,19 @@
     </tr>
     {% endfor %}
   </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <th class="cart-total">Total:</th>
+      <td class="cart-total">£{{ total|floatformat:2 }}</td>
+      <td>
+        <form method="POST" action="/orders">
+          {% csrf_token %}
+          <button class="btn-checkout">Order Now</button>
+        </form>
+      </td>
+    </tr>
+  </tfoot>
 </table>
 {% endblock %}

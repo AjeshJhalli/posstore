@@ -125,14 +125,23 @@ class PriceBreak(models.Model):
 
 class Order(models.Model):
   order_date = models.DateField()
-  invoice_address = models.ForeignKey(Address, on_delete=models.DO_NOTHING, related_name='invoice_address_id')
-  delivery_addresses = models.ManyToManyField(Address)
+  # invoice_address = models.ForeignKey(Address, on_delete=models.DO_NOTHING, related_name='invoice_address_id')
+  # delivery_addresses = models.ManyToManyField(Address)
+  total_cost = models.FloatField()
+  
+  @property
+  def items(self):
+    return OrderItem.objects.filter(order_id=self.pk)
   
   
 class OrderItem(models.Model):
   order = models.ForeignKey(Order, on_delete=models.CASCADE)
   product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
   quantity = models.IntegerField()
+  cost = models.FloatField()
+  
+  def __str__(self):
+    return 'Order ' + str(self.order.pk) + ' - ' + self.product.name + ' - ' + str(self.cost) + ' - x' + str(self.quantity)
 
 
 class CartItem(models.Model):

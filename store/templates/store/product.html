@@ -29,10 +29,18 @@
           />
         </label>
       </div>
-      {% include 'store/price_breakdown.html' %}
-      {% if in_cart %}
-      <button class="btn-delete-md" tabindex="2">Remove From Cart</button>
-      <button class="btn" tabindex="2">Save Changes</button>
+      {% include 'store/price_breakdown.html' %} {% if in_cart %}
+      <button
+        hx-delete="/cart"
+        hx-vals='{ "item_id": {{ item_id }} }'
+        hx-confirm="Are you sure you want to remove this item?"
+        type="button"
+        class="btn-delete-md"
+        tabindex="2"
+      >
+        Remove From Cart
+      </button>
+      <button class="btn" tabindex="3">Save Changes</button>
       {% else %}
       <button class="btn" tabindex="2">Add to Cart</button>
       {% endif %}

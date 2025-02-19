@@ -175,11 +175,28 @@ main {
   padding-bottom: 5px;
 }
 
-.btn:hover, .btn-delete:hover, .btn-edit:hover, .btn-delete-md:hover {
+.btn-checkout {
+  background-color: rgb(70, 70, 255);;
+  color: white;
+  border: 1px solid;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.btn:hover, .btn-delete:hover, .btn-edit:hover, .btn-delete-md:hover, .btn-checkout:hover {
   cursor: pointer;
 }
 
 .btn:active {
+  background-color: blue;
+}
+
+.btn-checkout:active {
   background-color: blue;
 }
 
@@ -286,4 +303,12 @@ main {
 .cart-td {
   padding-left: 40px;
   padding-right: 40px;
+}
+
+.cart-total {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-align: right;
 }
